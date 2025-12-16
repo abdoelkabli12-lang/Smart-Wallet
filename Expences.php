@@ -61,7 +61,7 @@ if (isset($_POST['Expences']) && isset($_POST['descreption_exp']))  {
             
       $sql_con->close();
 
-header("Location: Home.php");
+header("Location: index.php");
 exit;
 
 ?>

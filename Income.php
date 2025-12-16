@@ -76,7 +76,7 @@ if (isset($_POST['Incomes']) && isset($_POST['descreption'])){
 
 
 
-header("Location: Home.php");
+header("Location: index.php");
 exit;
 
 ?>

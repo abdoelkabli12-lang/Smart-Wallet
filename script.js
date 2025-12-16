@@ -10,11 +10,12 @@ const deleteBtnInc = document.querySelectorAll(".delete_btn_inc");
 const deleteBtnExp = document.querySelectorAll(".delete_btn_exp");
 const contInc = document.getElementById("cont_inc");
 const contExp = document.getElementById("cont_exp");
-const usser = document.getElementById("Usser");
+const User = document.querySelectorAll(".Usser")
 const loginBg = document.getElementById("bg-login");
+const signupBg = document.getElementById("bg-signup");
 const loginForm = document.getElementById("login-form");
-const signUp = document.querySelector(".signup");
-
+const signUp = document.querySelectorAll(".signup");
+const user = document.getElementById("user");
 
 editBtnInc.forEach(btn => {
   btn.addEventListener("click", (e) => {
@@ -181,13 +182,17 @@ contExp.appendChild(div);
 })
 
 
-
-
-usser.addEventListener("click", () => {
-  alert("kms")
+signUp.forEach(btn => {
+  btn.addEventListener("click", (e) => {
+    loginBg.classList.add("hidden");
+  signupBg.classList.add("hidden");
 })
-signUp.addEventListener("click")
+})
 
+
+user.addEventListener("click", () => {
+  loginBg.classList.remove("hidden");
+})
 
 
 

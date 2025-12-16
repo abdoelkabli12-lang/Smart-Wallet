@@ -50,6 +50,13 @@ $total_expenses = ($sumExpResult && $row = $sumExpResult->fetch_assoc()) ? $row[
 </head>
 
 <body class="m-0 font-sans antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 ">
+<?php
+
+if (!empty($_SESSION['login_success'])) {
+    echo "<script>alert('Login successful!');</script>";
+    unset($_SESSION['login_success']); // prevent repeat
+}
+?>
 
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -171,15 +178,31 @@ $total_expenses = ($sumExpResult && $row = $sumExpResult->fetch_assoc()) ? $row[
   </style>
 
 
+<?php 
+  $userEmail = isset($_SESSION['user']) ? $_SESSION['user'] : 'Guest';
+  $email = $_SESSION['user'];
+$emailHash = md5(strtolower(trim($email)));
+
+$gravatarUrl = "https://www.gravatar.com/avatar/$emailHash?d=identicon&s=80";
+
+?>
+
 
   <header class="relative">
     <div class=" flex gap-4 bg-gradient-to-r from-green-600 via-green-300 to-blue-600 h-14 w-full flex items-center">
       <h1 class="ml-4 font-semibold font-[Inter] text-2xl text-white">
         Smart Wallet
       </h1>
-      <img src="2dde7ddf-9a38-400b-94d2-c90c14b33677.jpg" class="rounded-full object-fit w-12">
-          <button id="user" class="absolute w-5 bg-gred h-12  right-5"><svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M144 128a80 80 0 1 1 160 0 80 80 0 1 1 -160 0zm208 0a128 128 0 1 0 -256 0 128 128 0 1 0 256 0zM48 480c0-70.7 57.3-128 128-128l96 0c70.7 0 128 57.3 128 128l0 8c0 13.3 10.7 24 24 24s24-10.7 24-24l0-8c0-97.2-78.8-176-176-176l-96 0C78.8 304 0 382.8 0 480l0 8c0 13.3 10.7 24 24 24s24-10.7 24-24l0-8z"/></svg>
-          </button>
+    <div class="absolute right-20 flex gap-1 items-center">
+      <p class=" text-white ml-auto mr-4 font-semibold">
+            <?php echo htmlspecialchars($userEmail); ?>
+        </p>
+        <img src="<?= $gravatarUrl ?>" class=" rounded-full w-10 h-10" alt="User avatar">
+    </div>
+
+        <img src="2dde7ddf-9a38-400b-94d2-c90c14b33677.jpg" class="rounded-full object-fit w-12">
+        <button id="user" class="absolute w-5 h-12  right-5"><svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M144 128a80 80 0 1 1 160 0 80 80 0 1 1 -160 0zm208 0a128 128 0 1 0 -256 0 128 128 0 1 0 256 0zM48 480c0-70.7 57.3-128 128-128l96 0c70.7 0 128 57.3 128 128l0 8c0 13.3 10.7 24 24 24s24-10.7 24-24l0-8c0-97.2-78.8-176-176-176l-96 0C78.8 304 0 382.8 0 480l0 8c0 13.3 10.7 24 24 24s24-10.7 24-24l0-8z"/></svg>
+      </button>
         </div>
 
   </header>
@@ -193,28 +216,59 @@ $total_expenses = ($sumExpResult && $row = $sumExpResult->fetch_assoc()) ? $row[
   </div>
 
 
-  <div id="bg-login" class=" fixed z-[1000] w-screen min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-800 px-4 sm:px-6 lg:px-8">
-    <div id="login-form" class="relative py-3 sm:max-w-xs sm:mx-auto">
+  <div id="bg-signup" class="Usser  fixed z-[1000] w-screen min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-800 px-4 sm:px-6 lg:px-8">
+    <div id="signup-form" class="relative py-3 sm:max-w-xs sm:mx-auto">
         <div class="min-h-96 px-8 py-6 mt-4 text-left bg-white dark:bg-gray-900  rounded-xl shadow-lg">
             <div class="flex flex-col justify-center items-center h-full select-none">
                 <div class="flex flex-col items-center justify-center gap-2 mb-8">
-                    <a href="https://amethgalarcio.web.app/" target="_blank">
-                        <img src="https://amethgalarcio.web.app/assets/logo-42fde28c.svg" class="w-8" />
-                    </a>
-                    <p class="m-0 text-[16px] font-semibold dark:text-white">Login to your Account</p>
+                        <img src="2dde7ddf-9a38-400b-94d2-c90c14b33677.jpg" class="w-8 rounded-full" />
+                    <p class="m-0 text-[16px] font-semibold dark:text-white">Signup to your new experience</p>
                     <span class="m-0 text-xs max-w-[90%] text-center text-[#8B8E98]">Get started with our app, just start section and enjoy experience.
                     </span>
                 </div>
-                <form action="user_signup.php" method="post">
                 <div class="w-full flex flex-col gap-2">
+                  <form action="user_signup.php" method="post">
                     <label class="font-semibold text-xs text-gray-400 ">Username</label>
-                    <input class="border rounded-lg px-3 py-2 mb-5 text-sm text-white w-full outline-none dark:border-gray-500 dark:bg-gray-900" placeholder="Username" />
+                    <input name="username" class="border rounded-lg px-3 py-2 mb-5 text-sm text-white w-full outline-none dark:border-gray-500 dark:bg-gray-900" placeholder="Username" required />
+                    <label class="font-semibold text-xs text-gray-400 ">Email</label>
+                    <input name="email" type="email" class="border rounded-lg px-3 py-2 mb-5 text-sm text-white w-full outline-none dark:border-gray-500 dark:bg-gray-900" placeholder="Email" required />
 
                 </div>
             </div>
             <div class="w-full flex flex-col gap-2">
+
                 <label class="font-semibold text-xs text-gray-400 ">Password</label>
-                <input type="password" class="border rounded-lg px-3 py-2 mb-5 text-sm text-white w-full outline-none dark:border-gray-500 dark:bg-gray-900" placeholder="••••••••" />
+                <input name = "password" type="password" class="border rounded-lg px-3 py-2 mb-5 text-sm text-white w-full outline-none dark:border-gray-500 dark:bg-gray-900" placeholder="••••••••" required />
+                <div className="mt-5">
+                    <input type="submit" class="signup py-1 px-8 bg-blue-500 hover:bg-blue-800 focus:ring-offset-blue-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg cursor-pointer select-none" value="Signup">
+                </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+  <div id="bg-login" class="Usser hidden fixed z-[1000] w-screen min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-800 px-4 sm:px-6 lg:px-8">
+    <div id="login-form" class="relative py-3 sm:max-w-xs sm:mx-auto">
+        <div class="min-h-96 px-8 py-6 mt-4 text-left bg-white dark:bg-gray-900  rounded-xl shadow-lg">
+            <div class="flex flex-col justify-center items-center h-full select-none">
+                <div class="flex flex-col items-center justify-center gap-2 mb-8">
+                        <img src="2dde7ddf-9a38-400b-94d2-c90c14b33677.jpg" class="w-8 rounded-full" />
+                    <p class="m-0 text-[16px] font-semibold dark:text-white">Login to your experience</p>
+                    <span class="m-0 text-xs max-w-[90%] text-center text-[#8B8E98]">Get started with our app, just start section and enjoy experience.
+                    </span>
+                </div>
+                <div class="w-full flex flex-col gap-2">
+                  <form action="user_login.php" method="post">
+                    <label class="font-semibold text-xs text-gray-400 ">Email</label>
+                    <input name="emailL" type="email" class="border rounded-lg px-3 py-2 mb-5 text-sm text-white w-full outline-none dark:border-gray-500 dark:bg-gray-900" placeholder="Email" required />
+
+                </div>
+            </div>
+            <div class="w-full flex flex-col gap-2">
+
+                <label class="font-semibold text-xs text-gray-400 ">Password</label>
+                <input name = "passwordL" type="password" class="border rounded-lg px-3 py-2 mb-5 text-sm text-white w-full outline-none dark:border-gray-500 dark:bg-gray-900" placeholder="••••••••" required />
                 <div className="mt-5">
                     <input type="submit" class="signup py-1 px-8 bg-blue-500 hover:bg-blue-800 focus:ring-offset-blue-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg cursor-pointer select-none" value="Signup">
                 </div>
@@ -579,6 +633,6 @@ $total_expenses = ($sumExpResult && $row = $sumExpResult->fetch_assoc()) ? $row[
 
 
 
-<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="script.js" defer></script>
 </body>
 </html>
