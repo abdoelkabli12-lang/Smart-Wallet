@@ -18,7 +18,7 @@
 
 </head>
 
-<body class="m-0 font-sans antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 ">
+<body class="m-0 font-sans antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 "> 
 
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
