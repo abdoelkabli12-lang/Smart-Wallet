@@ -1,6 +1,7 @@
 -- Active: 1764858635456@@127.0.0.1@3306@tracker
 use tracker;
 
+
 TRUNCATE TABLE user1;
 
 ALTER TABLE user1 MODIFY COLUMN Password VARCHAR(255) NOT NULL;
@@ -9,9 +10,37 @@ ALTER TABLE user1 ADD UNIQUE (email);
 
 CREATE TABLE IF NOT EXISTS Cards(
   Card_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  
-)
+  user_id INT,
+  Card_type VARCHAR(30) NOT NULL,
+  serial_num CHAR(15) NOT NULL,
+  CVV CHAR(3) NOT NULL,
+  CONSTRAINT FK_user_id FOREIGN KEY(user_id) REFERENCES user1(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Transactions(
+  trans_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  user_id INT,
+  card_id INT,
+  amount DECIMAL(10.2) NOT NULL,
+  beneficiary INT CHECK (beneficiary >= 15),
+  CONSTRAINT FK_userT_id FOREIGN KEY(user_id) REFERENCES user1(id) ON DELETE CASCADE,
+  CONSTRAINT FK_card_id FOREIGN KEY(card_id) REFERENCES Cards(Card_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Authontification(
+  auth_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  user_id INT,
+  card_id INT,
+  Token INT,
+  CONSTRAINT FK_userAU_id FOREIGN KEY(user_id) REFERENCES user1(id) ON DELETE CASCADE,
+  CONSTRAINT FK_cardAU_id FOREIGN KEY(card_id) REFERENCES Cards(Card_id) ON DELETE CASCADE
+);
 
 
+
+ALTER TABLE cards MODIFY Card_type ENUM('Visa', 'Master Card') NOT NULL;
+
+
+SELECT * FROM user1;
 
 
