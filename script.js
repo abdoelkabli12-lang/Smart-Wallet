@@ -155,3 +155,26 @@ document.querySelectorAll(".delete_btn_exp").forEach(btn => {
     form.submit();
   });
 });
+
+
+document.querySelectorAll('input[name="selected_card"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    document.getElementById('income-card-id').value = radio.value;
+    document.getElementById('expence-card-id').value = radio.value;
+  });
+});
+
+
+// Set default on page load
+const checked = document.querySelector('input[name="selected_card"]:checked');
+if (checked) {
+  document.getElementById('income-card-id').value = checked.value;
+  document.getElementById('expence-card-id').value = checked.value;
+}
+function selectCard(cardId) {
+  document.getElementById('income-card-id').value = cardId;
+  document.getElementById('expence-card-id').value = cardId;
+
+  // optional: update URL
+  window.history.replaceState(null, null, "?card_id=" + cardId);
+}

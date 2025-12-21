@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     unset($_SESSION['otp']);
 
     $_SESSION['login_success'] = true;
-    header("Location: Home.php");
+    header("Location: test.php");
     exit;
 }
 

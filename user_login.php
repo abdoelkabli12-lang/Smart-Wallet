@@ -1,16 +1,20 @@
 <?php
-require 'vendor/autoload.php';
+
 require 'email_send.php';
 session_start();
 
-$sql_con = new mysqli("localhost", "root", "", "tracker");
+$sql_con = new mysqli("localhost", "root", "", "Smart_Wallet");
 if ($sql_con->connect_error) {
     die("Database connection failed");
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    // 1️⃣ Basic validation
+
+    if(!isset($_SESSION['user'])){
+
+
+
     if (empty($_POST['emailL']) || empty($_POST['passwordL'])) {
         header("Location: index.php?error=login");
         exit;
@@ -19,31 +23,38 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $emailL   = trim($_POST['emailL']);
     $password = $_POST['passwordL'];
 
-    // 2️⃣ Fetch password hash
-    $stmt = $sql_con->prepare("SELECT Password FROM user1 WHERE Email = ?");
-    $stmt->bind_param("s", $emailL);
-    $stmt->execute();
-    $stmt->bind_result($hashedPasswordFromDb);
 
-    // 3️⃣ Verify password
-    if (!$stmt->fetch() || !password_verify($password, $hashedPasswordFromDb)) {
-        $stmt->close();
-        header("Location: index.php?error=login");
-        exit;
-    }
-    
-    $stmt->close();
-        $_SESSION['user'] = $emailL;
+$stmt = $sql_con->prepare("SELECT id, Password FROM users WHERE Email = ?");
+$stmt->bind_param("s", $emailL);
+$stmt->execute();
+$stmt->bind_result($user_id, $hashedPasswordFromDb);
+
+if (!$stmt->fetch()) {
+    die("User not found");
+}
+
+$stmt->close();
+
+if (!password_verify($password, $hashedPasswordFromDb)) {
+    die("Wrong password");
+}
+
+// ✅ NOW user_id exists
+$_SESSION['user'] = $emailL;
+$_SESSION['user_id'] = $user_id;
+
+
+
 
     if (!sendOTP($emailL)) {
         die("Failed to send OTP");
     }
     
-    // Redirect AFTER sending
+
     header("Location: otp_verify.php");
     exit;
 
-    // 4️⃣ OTP check
+
     if (!isset($_POST['otp']) || !isset($_SESSION['otp'])) {
         header("Location: otp_verify.php?error=otp_missing");
         exit;
@@ -54,14 +65,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    // 5️⃣ SUCCESS → Login complete
+
     unset($_SESSION['otp']);
 
 
     $_SESSION['login_success'] = true;
+        }
 
 // SEND OTP
-
-    header("Location: Home.php?success=login");
+    header("Location: test.php?success=login");
     exit;
 }

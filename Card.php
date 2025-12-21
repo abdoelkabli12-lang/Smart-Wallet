@@ -73,7 +73,7 @@
   </div>
 
   <!-- FORM -->
-  <form action="Card_add.php" method = "POST" class="bg-white p-8 rounded-xl shadow space-y-5">
+  <form action="Card_add.php" method ="POST" class="bg-white p-8 rounded-xl shadow space-y-5">
     <div>
       <label class="text-sm font-medium">Card Number</label>
       <input id="input-number" maxlength="19" name = "card-number"
@@ -103,9 +103,9 @@
       </div>
     </div>
 
-    <button class="w-full bg-slate-900 text-white py-3 rounded hover:bg-slate-800">
-      Add Card
-    </button>
+    <input type="submit" name = "addCard" class="w-full bg-slate-900 text-white py-3 rounded hover:bg-slate-800">
+
+
   </form>
 
 </div>
@@ -139,27 +139,22 @@ numberInput.addEventListener("input", e => {
   e.target.value = raw.replace(/(.{4})/g, "$1 ").trim();
   cardNumber.textContent = e.target.value || "#### #### #### ####";
 
-  const type = detectCardType(raw);
+    const type = detectCardType(raw);
   if (type === "VISA") {
     cardTypeLabel.textContent = "VISA";
     cardLogo.src = visaLogo;
     cardLogo.classList.remove("hidden");
-    document.innerHTML = `
-    <form action="Card_add.php" method = "POST">
-    <input type = "hidden" value = "Visa" name = "Visa">
-    </form>`;
+
   } else if (type === "MASTERCARD") {
     cardTypeLabel.textContent = "MASTERCARD";
     cardLogo.src = mcLogo;
     cardLogo.classList.remove("hidden");
-        document.innerHTML = `
-    <form action="Card_add.php" method = "POST">
-    <input type = "hidden" value = "MaserCard" name = "MasterCard">
-    </form>`;
+
   } else {
     cardTypeLabel.textContent = "—";
     cardLogo.classList.add("hidden");
   }
+
 });
 
 // Name

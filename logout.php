@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "tracker";
+$dbname = "Smart_wallet";
 
 $sql_con = new mysqli($servername, $username, $password, $dbname);
 
