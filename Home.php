@@ -11,19 +11,19 @@ if ($sql_con->connect_error) {
   die("Connection failed: " . $sql_con->connect_error);
 }
 
-$sql_inc = "SELECT * FROM income_tracker WHERE MONTH(Date) = MONTH(CURRENT_DATE) AND YEAR(Date) = YEAR(CURRENT_DATE)";
+$sql_inc = "SELECT * FROM incomes_tracker WHERE MONTH(Date) = MONTH(CURRENT_DATE) AND YEAR(Date) = YEAR(CURRENT_DATE)";
 $result_inc = $sql_con->query($sql_inc);
 
-$sql_sumInc = "SELECT SUM(Income) AS total_income FROM income_tracker";
+$sql_sumInc = "SELECT SUM(Incomes) AS total_income FROM incomes_tracker";
 $sumIncResult = $sql_con->query($sql_sumInc);
 $total_income = ($sumIncResult && $row = $sumIncResult->fetch_assoc()) ? $row['total_income'] : 0;
 
 
 
-$sql_exp = "SELECT * FROM expences_trakcer WHERE MONTH(Date) = MONTH(CURRENT_DATE) AND YEAR(Date) = YEAR(CURRENT_DATE)";
+$sql_exp = "SELECT * FROM expences_tracker WHERE MONTH(Date) = MONTH(CURRENT_DATE) AND YEAR(Date) = YEAR(CURRENT_DATE)";
 $result_exp = $sql_con->query($sql_exp);
 
-$sql_sumExp = "SELECT SUM(Expences) AS total_expenses FROM expences_trakcer";
+$sql_sumExp = "SELECT SUM(Expences) AS total_expenses FROM expences_tracker";
 $sumExpResult = $sql_con->query($sql_sumExp);
 $total_expenses = ($sumExpResult && $row = $sumExpResult->fetch_assoc()) ? $row['total_expenses'] : 0;
 ?>
@@ -481,12 +481,12 @@ if (isset($_SESSION['user'])) {
 
             while ($row_inc = $result_inc->fetch_assoc()) {
               echo "
-<tr class = 'element' data-id = $row_inc[id]>
+<tr class = 'element' data-id = $row_inc[inc_id]>
   <td class='p-2 align-middle bg-transparent border-b w-3/10 whitespace-nowrap dark:border-white/40'>
     <div class='flex items-center px-2 py-1'>
       <div class='ml-6'>
         <p class='mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60'>Income:</p>
-        <h6 class='mb-0 text-sm leading-normal dark:text-uncommon font-semibold'>$ $row_inc[Income]</h6>
+        <h6 class='mb-0 text-sm leading-normal dark:text-uncommon font-semibold'>$ $row_inc[Incomes]</h6>
       </div>
     </div>
   </td>
@@ -499,7 +499,7 @@ if (isset($_SESSION['user'])) {
   <td class='p-2 align-middle bg-transparent border-b whitespace-nowrap dark:border-white/40'>
     <div class='text-center'>
       <p class='mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60'>Descreption</p>
-      <h6 class='mb-0 text-sm leading-normal dark:text-white'>$row_inc[descr]</h6>
+      <h6 class='mb-0 text-sm leading-normal dark:text-white'>$row_inc[description]</h6>
     </div>
   </td>
     <td class='p-2 align-middle bg-transparent border-b whitespace-nowrap dark:border-white/40'>
@@ -529,7 +529,7 @@ if (isset($_SESSION['user'])) {
 
             while ($row_exp = $result_exp->fetch_assoc()) {
               echo "
-<tr class = 'Eelement' data-id = $row_exp[id]>
+<tr class = 'Eelement' data-id = $row_exp[exp_id]>
   <td class='p-2 align-middle bg-transparent border-b w-3/10 whitespace-nowrap dark:border-white/40'>
     <div class='flex items-center px-2 py-1'>
       <div class='ml-6'>
@@ -547,7 +547,7 @@ if (isset($_SESSION['user'])) {
   <td class='p-2 align-middle bg-transparent border-b whitespace-nowrap dark:border-white/40'>
     <div class='text-center'>
       <p class='mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60'>Descreption</p>
-      <h6 class='mb-0 text-sm leading-normal dark:text-white'>$row_exp[descr]</h6>
+      <h6 class='mb-0 text-sm leading-normal dark:text-white'>$row_exp[description]</h6>
     </div>
   </td>
     </td>
